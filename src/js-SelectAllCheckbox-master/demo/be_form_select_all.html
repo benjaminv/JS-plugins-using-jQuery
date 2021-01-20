@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+   <head>
+      <meta charset="UTF-8"/>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+   </head>
+
+   <body>
+      <div id="container">
+         <div class="form-group row">
+            <div class="col-12">
+                <label class="css-control css-control-danger css-checkbox">
+                    <input id="select-all" type="checkbox" class="css-control-input" checked>
+                    <span class="css-control-indicator"></span> All Formats
+                </label>
+            </div>
+            <div class="col-6">
+                <label class="css-control css-control-primary css-checkbox">
+                    <input name="selling-format" type="checkbox" class="css-control-input" checked>
+                    <span class="css-control-indicator"></span> Buy It Now
+                </label>
+            </div>
+            <div class="col-6">
+                <label class="css-control css-control-warning css-checkbox">
+                    <input name="selling-format" type="checkbox" class="css-control-input" checked>
+                    <span class="css-control-indicator"></span> Auction
+                </label>
+            </div>
+            <div class="col-6">
+                <label class="css-control css-control-success css-checkbox">
+                    <input name="selling-format" type="checkbox" class="css-control-input" checked>
+                    <span class="css-control-indicator"></span> Best Offer
+                </label>
+            </div>
+        </div>
+      </div>
+
+      <script type="text/javascript" src="../src/selectallcheckbox.js"></script>
+
+      <script type="text/javascript">
+         function onChange(checkboxes, checkedState) {
+            for( var i = 0; i < checkboxes.length; i++ ) {
+               var box = checkboxes[i];
+            }
+         }
+
+         window.addEventListener( "DOMContentLoaded", () => {
+            const group1 = new CheckboxGroup(
+               "select-all",
+               "selling-format",
+               onChange
+            );
+         } );
+      </script>
+
+   </body>
+</html>

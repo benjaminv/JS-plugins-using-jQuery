@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Ajax & jQuery - Cascading DropDownList using JSON</title>
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" /> -->
+
+        <!-- Fonts and Codebase framework -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700&display=swap">
+        <link rel="stylesheet" id="css-main" href="assets/css/codebase.min.css">
+        
+    </head>
+    <body>
+        <div class="container">
+            <h5 class="text-center">Ajax & jQuery - Cascading DropDownList using JSON</h5>
+            <div class="row">
+                <select name="Category" id="Category" class="form-control mb-2 input-md">
+                    <option value="">Select Category</option>
+                </select>
+                <select name="Sub-category" id="Level2" class="form-control mb-2 input-md d-none">
+                    <option value="">Select Sub-category</option>
+                </select>
+                <select name="Sub-category" id="Level3" class="form-control mb-2 input-md d-none">
+                    <option value="">Select Sub-category</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+        <!--
+            Codebase JS Core
+
+            Vital libraries and plugins used in all pages. You can choose to not include this file if you would like
+            to handle those dependencies through webpack. Please check out assets/_js/main/bootstrap.js for more info.
+
+            If you like, you could also include them separately directly from the assets/js/core folder in the following
+            order. That can come in handy if you would like to include a few of them (eg jQuery) from a CDN.
+
+            assets/js/core/jquery.min.js
+            assets/js/core/bootstrap.bundle.min.js
+            assets/js/core/simplebar.min.js
+            assets/js/core/jquery-scrollLock.min.js
+            assets/js/core/jquery.appear.min.js
+            assets/js/core/jquery.countTo.min.js
+            assets/js/core/js.cookie.min.js
+        -->
+        <script src="assets/js/codebase.core.min.js"></script>
+
+        <!--
+            Codebase JS
+
+            Custom functionality including Blocks/Layout API as well as other vital and optional helpers
+            webpack is putting everything together at assets/_js/main/app.js
+        -->
+        <script src="assets/js/codebase.app.min.js"></script>
+
+        <!-- Page JS Plugins -->
+        <!-- <script src="assets/js/plugins/bootstrap-wizard/jquery.bootstrap.wizard.js"></script> -->
+
+        <!-- Page JS that you temporarily don't want to wrap -->
+        <script>
+        $(document).ready(function() {
+        
+            load_json_data('Category');
+        
+            function load_json_data(id, parent_id) {
+                var html_code = '';
+                $.getJSON('https://api.npoint.io/90e367d7408832ddb293', function(data) {
+        
+                    html_code += '<option value="">All ' + id + '</option>';
+                    $.each(data, function(key, value) {
+                        if (id == 'Category') {
+                            if (value.parent_id == '0') {
+                                html_code += '<option value="' + value.id + '">' + value.name + '</option>';
+                            }
+                        } else {
+                            if (value.parent_id == parent_id) {
+                                html_code += '<option value="' + value.id + '">' + value.name + '</option>';
+                            }
+                        }
+                    });
+                    $('#' + id).html(html_code);
+                });
+        
+            }
+        
+            $(document).on('change', '#Category', function() {
+                var car_id = $(this).val();
+                if (car_id != '') {
+                    load_json_data('Level2', car_id);
+                    $('#Level2').removeClass('d-none');
+                } else {
+                    // $('#Level2').html('<option value="">Select Model</option>');
+                    $('#Level2').addClass('d-none');
+                }
+                    // $('#Level3').html('<option value="">Select Variant</option>');
+                    $('#Level3').addClass('d-none');
+            });
+            $(document).on('change', '#Level2', function() {
+                var model_id = $(this).val();
+                if (model_id != '') {
+                    load_json_data('Level3', model_id);
+                    $('#Level3').removeClass('d-none');
+                } else {
+                    // $('#Level3').html('<option value="">Select Variant</option>');
+                    $('#Level3').addClass('d-none');
+                }
+            });
+        });
+        </script>
+    </body>
+</html>
