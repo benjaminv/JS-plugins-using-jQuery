@@ -12,6 +12,7 @@
     <body>
         <div class="container">
             <h5 class="text-center">Ajax & jQuery - Cascading DropDownList using JSON</h5>
+            <label for="category-droplist"><a type='reset' id="reset-category">reset category</a></label>
             <div class="row">
                 <select name="Category" id="Category" class="form-control mb-2 input-md">
                     <option value="">Select Category</option>
@@ -20,6 +21,9 @@
                     <option value="">Select Sub-category</option>
                 </select>
                 <select name="Sub-category" id="Level3" class="form-control mb-2 input-md d-none">
+                    <option value="">Select Sub-category</option>
+                </select>
+                <select name="Sub-category" id="Level4" class="form-control mb-2 input-md d-none">
                     <option value="">Select Sub-category</option>
                 </select>
             </div>
@@ -66,6 +70,7 @@
             function load_json_data(id, parent_id) {
                 var html_code = '';
                 $.getJSON('https://api.npoint.io/90e367d7408832ddb293', function(data) {
+                // $.getJSON('nested-cat-example.json', function(data) {
         
                     html_code += '<option value="">All ' + id + '</option>';
                     $.each(data, function(key, value) {
@@ -81,7 +86,6 @@
                     });
                     $('#' + id).html(html_code);
                 });
-        
             }
         
             $(document).on('change', '#Category', function() {
@@ -95,6 +99,7 @@
                 }
                     // $('#Level3').html('<option value="">Select Variant</option>');
                     $('#Level3').addClass('d-none');
+                    $('#Level4').addClass('d-none');
             });
             $(document).on('change', '#Level2', function() {
                 var model_id = $(this).val();
@@ -104,7 +109,27 @@
                 } else {
                     // $('#Level3').html('<option value="">Select Variant</option>');
                     $('#Level3').addClass('d-none');
+                    $('#Level4').addClass('d-none');
                 }
+            });
+            $(document).on('change', '#Level3', function() {
+                var model_id = $(this).val();
+                if (model_id != '') {
+                    load_json_data('Level4', model_id);
+                    $('#Level4').removeClass('d-none');
+                } else {
+                    // $('#Level3').html('<option value="">Select Variant</option>');
+                    $('#Level4').addClass('d-none');
+                }
+            });
+            $('#reset-category').click(function(){
+                $('#Category').val('');
+                $('#Level2').val('');
+                $('#Level2').addClass('d-none');
+                $('#Level3').val('');
+                $('#Level3').addClass('d-none');
+                $('#Level4').val('');
+                $('#Level4').addClass('d-none');
             });
         });
         </script>
