@@ -3,4 +3,4 @@
 .DS_Store
 
 # Dont sync local dependencies - be careful you do need this for them to work
-# Okay to avoid confustion i now have enable sync of dependencies, let me know if you ARE confused
+# Okay to avoid confustion i now have enabled sync of dependencies, let me know if you ARE confused
